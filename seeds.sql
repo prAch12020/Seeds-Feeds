@@ -1,0 +1,214 @@
+--
+-- Table structure for table `tbl_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_roles` (
+  `role_id` int(10) NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(100) NOT NULL,
+PRIMARY KEY(role_id)
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_users`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_users` (
+  `user_id` int(10) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `phone` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `address` varchar(100),
+  `city` varchar(100) ,
+  `country` varchar(100) ,
+  `role_id` INT(10) NOT NULL,
+PRIMARY KEY(user_id),
+FOREIGN KEY(role_id) REFERENCES tbl_roles(role_id)
+); 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_farmers`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_farmers` (
+  `farmer_id` int(10) NOT NULL AUTO_INCREMENT,
+  `farmer_name` varchar(100) NOT NULL,
+  `farmer_email` varchar(100) NOT NULL,
+  `farmer_phone` varchar(100) NOT NULL,
+  `farmer_password` varchar(100) NOT NULL,
+  `farmer_address` varchar(100) ,
+  `farmer_city` varchar(100) ,
+  `farmer_country` varchar(100) ,
+PRIMARY KEY(farmer_id)
+) ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_inputs`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_inputs` (
+  `input_id` int(10) NOT NULL AUTO_INCREMENT,
+  `input_name` varchar(100) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `input_desc` varchar(500) NOT NULL,
+`input_unit` varchar(500) NOT NULL,
+  `input_price` varchar(100) NOT NULL,
+`image` varchar(500) NOT NULL,
+PRIMARY KEY(input_id),
+FOREIGN KEY(user_id) REFERENCES tbl_users(user_id)
+) ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_farminput`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_farminput` (
+  `farminput_id` int(10) NOT NULL AUTO_INCREMENT,
+  `farmer_id` int(10) NOT NULL,
+  `input_id` int(10) NOT NULL,
+  `quantity` varchar(100) NOT NULL,
+PRIMARY KEY(farminput_id),
+FOREIGN KEY(farmer_id) REFERENCES tbl_farmers(farmer_id),
+FOREIGN KEY(input_id) REFERENCES tbl_inputs(input_id)
+) ;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_inputorders`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_inputorders` (
+  `inputorder_id` int(10) NOT NULL AUTO_INCREMENT,
+  `farmer_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `amount` varchar(100) NOT NULL,
+  `status` varchar(100) NOT NULL,
+
+PRIMARY KEY(inputorder_id),
+FOREIGN KEY(user_id) REFERENCES tbl_users(user_id),
+FOREIGN KEY(farmer_id) REFERENCES tbl_farmers(farmer_id)
+
+); 
+
+CREATE TABLE IF NOT EXISTS `tbl_shippingdetails` (
+  `shippingdetail_id` int(10) NOT NULL AUTO_INCREMENT,
+  `inputorder_id` int(10) NOT NULL,
+  `name` varchar(100) NOT NULL,
+`phone` varchar(100) NOT NULL,
+`email` varchar(100) NOT NULL,
+`street` varchar(100) NOT NULL,
+`city` varchar(100) NOT NULL,
+`country` varchar(100) NOT NULL,
+  PRIMARY KEY(shippingdetail_id),
+FOREIGN KEY(inputorder_id) REFERENCES tbl_inputorders(inputorder_id)
+
+) ;
+
+
+CREATE TABLE IF NOT EXISTS `tbl_paymentdetails` (
+  `paymentdetail_id` int(10) NOT NULL AUTO_INCREMENT,
+  `shippingdetail_id` int(10) NOT NULL,
+  `inputorder_id` int(10) NOT NULL,
+  `paymentdetails` varchar(100) NOT NULL,
+PRIMARY KEY(paymentdetail_id),
+FOREIGN KEY(shippingdetail_id) REFERENCES tbl_shippingdetails(shippingdetail_id),
+FOREIGN KEY(inputorder_id) REFERENCES tbl_inputorders(inputorder_id)
+) ;
+
+
+
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_inputorderdetails`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_inputorderdetails` (
+  `inputorderdetails_id` int(10) NOT NULL AUTO_INCREMENT,
+  `inputorder_id` int(10) NOT NULL,
+  `input_id` int(10) NOT NULL,
+  `price` varchar(100) NOT NULL,
+  `quantity` varchar(100) NOT NULL,
+  `total` varchar(100) NOT NULL,
+PRIMARY KEY(inputorderdetails_id),
+FOREIGN KEY(input_id) REFERENCES tbl_inputs(input_id),
+FOREIGN KEY(inputorder_id) REFERENCES tbl_inputorders(inputorder_id)
+
+) ;
+
+
+-- --------------------------------------------------------
+
+--
+CREATE TABLE IF NOT EXISTS `tbl_orders` (
+  `order_id` int(10) NOT NULL AUTO_INCREMENT,
+  `farmer_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `amount` varchar(100) NOT NULL,
+  `status` varchar(100) NOT NULL,
+PRIMARY KEY(order_id),
+FOREIGN KEY(farmer_id) REFERENCES tbl_farmers(farmer_id),
+FOREIGN KEY(user_id) REFERENCES tbl_users(user_id)
+
+
+) ;
+--
+-- Table structure for table `tbl_farmproduce`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_farmproduce` (
+  `produce_id` int(10) NOT NULL AUTO_INCREMENT,
+  `farmer_id` int(10) NOT NULL,
+  `produce_name` varchar(100) NOT NULL,
+  `produce_desc` varchar(500) NOT NULL,
+  `produce_stock` varchar(100) NOT NULL,
+  `produce_unit` varchar(100) NOT NULL,
+`product_price` int(10) NOT NULL,
+`product_image` varchar(100) NOT NULL,
+PRIMARY KEY(produce_id),
+FOREIGN KEY(farmer_id) REFERENCES tbl_farmers(farmer_id)
+); 
+
+
+-- Table structure for table `tbl_orderdetails`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_orderdetails` (
+  `orderdetail_id` int(10) NOT NULL AUTO_INCREMENT,
+  `order_id` int(10) NOT NULL,
+  `produce_id` int(10) NOT NULL,
+  `quantity` varchar(100) NOT NULL,
+  `total` varchar(100) NOT NULL,
+PRIMARY KEY(orderdetail_id),
+FOREIGN KEY(order_id) REFERENCES tbl_orders(order_id),
+FOREIGN KEY(produce_id) REFERENCES tbl_farmproduce(produce_id)
+
+) ;
+-- --------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS `tbl_requests` (
+  `request_id` int(10) NOT NULL AUTO_INCREMENT,
+  `farmer_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `message` varchar(100) NOT NULL,
+  `visit` varchar(100) NOT NULL,
+`visit_date` date NOT NULL,
+PRIMARY KEY(request_id),
+FOREIGN KEY(farmer_id) REFERENCES tbl_farmers(farmer_id),
+FOREIGN KEY(user_id) REFERENCES tbl_users(user_id)
+
+) ;
