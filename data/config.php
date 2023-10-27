@@ -211,7 +211,7 @@ function saveAddress($add, $city, $country, $lat, $long){
             redirectToPage();
         }
         else
-            echo "Server error! Please try again later.";
+            echo "Server error in saving farmer's details! Please try again later.";
     }
 }
 
