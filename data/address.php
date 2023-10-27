@@ -4,22 +4,19 @@ $vet_add = $_POST['add'];
 $msg = $_POST['city'];
 $date = $_POST['country'];
 
-$address =$vet_add .", ". $msg .", ". $date; ; 
+$address =$vet_add .", ". $msg .", ". $date; 
+echo $address;
 $prepAddr = urlencode($address);
+echo $prepAddr;
 
 $url = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig';
-$ch = curl_init();
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        $result = curl_exec($ch);
-        curl_close($ch);
 
-        $data = json_decode($result, true);
-
-        $lat = $data['results'][0]['geometry']['location']['lat'];
-        $lng = $data['results'][0]['geometry']['location']['lng'];
-
-	
+echo $url;
+$resp = json_decode( file_get_contents( $url ), true );
+echo $resp;
+// Latitude and Longitude (PHP 7 syntax)
+$lat    = $resp['results'][0]['geometry']['location']['lat'] ?? '';
+$long   = $resp['results'][0]['geometry']['location']['lng'] ?? '';
 echo "latitude - ".$lat;
 echo "longitude - ".$lng;
 
