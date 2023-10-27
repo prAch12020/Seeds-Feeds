@@ -6,7 +6,7 @@ $date = $_POST['country'];
 $address =$vet_add .", ". $msg .", ". $date; 
 $prepAddr = urlencode($address);
 $url = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig';
-$resp = json_decode( file_get_contents( $url ), true );
+$data = json_decode( file_get_contents( $url ), true );
 
 if ($data && isset($data['results'][0]['geometry']['location']['lat']) && isset($data['results'][0]['geometry']['location']['lng'])) {
     $lat = $data['results'][0]['geometry']['location']['lat'];
