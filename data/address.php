@@ -4,10 +4,10 @@ $vet_add = $_POST['add'];
 $msg = $_POST['city'];
 $date = $_POST['country'];
 
-$address =$vet_add .", ". $msg .", ". $date; ; // Google HQ
-$prepAddr = str_replace(' ','+',$address);
+$address =$vet_add .", ". $msg .", ". $date; ; 
+$prepAddr = urlencode($address);
 
-$url = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig';
+$url = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig';
 $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
