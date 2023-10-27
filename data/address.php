@@ -7,16 +7,23 @@ $date = $_POST['country'];
 $address =$vet_add .", ". $msg .", ". $date; ; // Google HQ
 $prepAddr = str_replace(' ','+',$address);
 
-$geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig');
-$output= json_decode($geocode, true);
-echo $output;
-$latitude = $output['results'][0]['geometry']['location']['lat'];
-$longitude = $output['results'][0]['geometry']['location']['lng'];
+$url = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig';
+$ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        $data = json_decode($result, true);
+
+        $lat = $data['results'][0]['geometry']['location']['lat'];
+        $lng = $data['results'][0]['geometry']['location']['lng'];
+
 	
-echo "latitude - ".$latitude;
-echo "longitude - ".$longitude;
+echo "latitude - ".$lat;
+echo "longitude - ".$lng;
 
 
 require_once 'config.php';
-saveAddress($vet_add, $msg, $date, $latitude, $longitude);
+saveAddress($vet_add, $msg, $date, $lat, $lng);
 ?>
