@@ -1,5 +1,6 @@
 <?php 
 $vet_add = $_POST['add'];
+echo $vet_add;
 $msg = $_POST['city'];
 $date = $_POST['country'];
 
