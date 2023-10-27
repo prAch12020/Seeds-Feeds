@@ -127,7 +127,7 @@ function login($email, $password){
             $_SESSION['lat'] = $num['latitude'];
             $_SESSION['long'] = $num['longitude'];
             if($num['address'] == NULL && $num['city'] == NULL && $num['country'] == NULL){?>
-                <script src='../../assets/js/address.js'></script>
+                <script src='../../assets/js/address2.js'></script>
                 <p>Logged in successfully. Please complete your details.</p>
             <?php }
             else/*{
@@ -162,7 +162,7 @@ function login($email, $password){
                 $_SESSION['long'] = $row['longitude'];
                 $_SESSION['role_id'] = 0;
                 if($row['farmer_address'] == NULL && $row['farmer_city'] == NULL && $row['farmer_country'] == NULL){?>
-                    <script src='../../assets/js/address.js'></script>
+                    <script src='../../assets/js/address2.js'></script>
                     <p>Logged in successfully. Please complete your details.</p>
                 <?php }
                 else{
