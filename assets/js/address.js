@@ -30,9 +30,15 @@ $(document).on('submit', '#address-form', (e) => {
     let add = $('#add').val();
     let city = $('#city').val();
     let country = $('#country').val();
+
+    // Debugging: Check the values
+        console.log('add:', add);
+        console.log('city:', city);
+        console.log('country:', country);
     $.ajax({
         type: "POST",
         url: "data/address.php",
+
         data: {
             add: add,
             city: city,
