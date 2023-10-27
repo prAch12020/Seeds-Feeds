@@ -5,11 +5,21 @@ $date = $_POST['country'];
 
 $address =$vet_add .", ". $msg .", ". $date; 
 $prepAddr = urlencode(str_replace(' ', '+', $address));
-
 $url = 'https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig';
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$response = curl_exec($ch);
+
+if ($response === false) {
+    echo "cURL Error: " . curl_error($ch);
+} else {
+    $data = json_decode($response, true);
+}
+curl_close($ch);
+
+
 try{
-    $data = json_decode( file_get_contents( $url ), true );
-    
     var_dump($data); // Debug: Inspect the entire JSON response
     
     if ($data['status'] === 'OK') {
