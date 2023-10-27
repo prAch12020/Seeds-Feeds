@@ -187,7 +187,6 @@ function saveAddress($add, $city, $country, $lat, $long){
     $sql2 = "UPDATE tbl_farmers SET farmer_address = '$add', farmer_city = '$city', farmer_country = '$country', 
             latitude = $lat, longitude = $long WHERE farmer_id='$_SESSION[userID]'";
     if($_SESSION['role_id'] == 0){
-         echo $sql2;
         if(mysqli_query($conn,$sql2)){
             echo "Your address is saved successfully.";
             $_SESSION['address'] = $add;
@@ -201,7 +200,6 @@ function saveAddress($add, $city, $country, $lat, $long){
             echo "Server error! Please try again later.";
     }
     else if($_SESSION['role_id'] != 0){
-         echo $sql;
         if(mysqli_query($conn,$sql)){
             echo "Your address is saved successfully.";
             $_SESSION['address'] = $add;
