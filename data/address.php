@@ -5,11 +5,11 @@ $msg = $_POST['city'];
 $date = $_POST['country'];
 
 $address =$vet_add .", ". $msg .", ". $date; ; // Google HQ
-$prepAddr1 = str_replace(' ','+',$address);
-$prepAddr = str_replace(', ','',$prepAddr1);
-echo $prepAddr;
+$prepAddr = str_replace(' ','+',$address);
+
 $geocode=file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false&key=AIzaSyClL3XpKG_N2NuCvin3bAX11M8ZqEh-Fig');
 $output= json_decode($geocode, true);
+echo $output;
 $latitude = $output['results'][0]['geometry']['location']['lat'];
 $longitude = $output['results'][0]['geometry']['location']['lng'];
 	
@@ -18,5 +18,5 @@ echo "longitude - ".$longitude;
 
 
 require_once 'config.php';
-saveAddress($vet, $msg, $date, $latitude, $longitude);
+saveAddress($vet_add, $msg, $date, $latitude, $longitude);
 ?>
